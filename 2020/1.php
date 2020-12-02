@@ -30,7 +30,7 @@ function find_3($numbers) {
     }
 }
 
-$numbers = load_data("data/1.txt");
+$numbers = load_data("1.txt");
 
 find_2($numbers);
 

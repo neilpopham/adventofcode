@@ -6,7 +6,7 @@ function check($trees, $dx = 3, $dy = 1) {
     $total = 0;
     $x = $dx;
     $width = strlen($trees[0]);
-    for ($y = $dy; $y < count($trees); $y+=$dy) {
+    for ($y = $dy; $y < count($trees); $y += $dy) {
         if ($trees[$y][$x] == '#') {
             $total++;
         }

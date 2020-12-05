@@ -21,7 +21,7 @@ $min = reset($seats);
 
 print "Max is {$max}\n";
 
-for ($i=$min; $i < $max; $i++) {
+for ($i = $min; $i < $max; $i++) {
     if (!in_array($i, $seats)) {
        print "Seat $i is missing\n";
     }

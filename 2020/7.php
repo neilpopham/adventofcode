@@ -44,7 +44,6 @@ $data = load_data("7.txt");
 $bags = [];
 foreach ($data as $rule) {
     if (preg_match_all('/(?:(\d) )*(\w+ \w+) bags*/', $rule, $matches)) {
-        print_r($matches);
         $bags[$matches[2][0]] = [];
         for ($i = 1; $i < count($matches[2]); $i++) {
             $bags[$matches[2][0]][$matches[2][$i]] = $matches[1][$i] ?: 0;
@@ -55,10 +54,3 @@ foreach ($data as $rule) {
 check_1($bags);
 
 check_2($bags);
-
-
-
-
-
-
-

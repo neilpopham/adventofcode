@@ -1,4 +1,4 @@
-import mylib
+import core
 
 def find_2(numbers):
 	l1 = 0
@@ -30,7 +30,7 @@ def find_3(numbers):
 			l2 = l2 + 1
 		l1 = l1 + 1	
 
-numbers = mylib.load_data("1.txt")
+numbers = core.load_data("1.txt")
 
 find_2(numbers)
 

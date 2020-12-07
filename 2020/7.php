@@ -56,7 +56,6 @@ $data = load_data("7.txt");
 
 $bags = get_bags($data);
 
-
 check_1($bags);
 
 check_2($bags);

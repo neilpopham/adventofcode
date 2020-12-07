@@ -2,6 +2,19 @@
 
 require('libs/core.php');
 
+function get_bags($data) {
+    $bags = [];
+    foreach ($data as $rule) {
+        if (preg_match_all('/(?:(\d) )*(\w+ \w+) bags*/', $rule, $matches)) {
+            $bags[$matches[2][0]] = [];
+            for ($i = 1; $i < count($matches[2]); $i++) {
+                $bags[$matches[2][0]][$matches[2][$i]] = $matches[1][$i] ?: 0;
+            }
+        }
+    }
+    return $bags;
+}
+
 function can_contain($bag, $bags) {
     if (array_key_exists("shiny gold", $bag)) {
         return true;
@@ -41,15 +54,8 @@ function check_2($bags) {
 
 $data = load_data("7.txt");
 
-$bags = [];
-foreach ($data as $rule) {
-    if (preg_match_all('/(?:(\d) )*(\w+ \w+) bags*/', $rule, $matches)) {
-        $bags[$matches[2][0]] = [];
-        for ($i = 1; $i < count($matches[2]); $i++) {
-            $bags[$matches[2][0]][$matches[2][$i]] = $matches[1][$i] ?: 0;
-        }
-    }
-}
+$bags = get_bags($data);
+
 
 check_1($bags);
 

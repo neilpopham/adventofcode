@@ -18,7 +18,7 @@ function test($data, $alter = false) {
         $l = 0;
         $done = [];
         while (isset($data[$l])) {
-            if (preg_match('/^(nop|acc|jmp) (.+)$/', $data[$l], $matches)) {
+            if (preg_match('/^(nop|acc|jmp) \+*(\-*\d+)$/', $data[$l], $matches)) {
                 $done[$l] = 1;
                 switch ($matches[1]) {
                     case "acc":

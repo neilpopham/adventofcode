@@ -6,4 +6,4 @@ def load_data(file):
 	file = open("%s/../data/%s" % (path, file), "r")
 	data = file.read().strip()
 	data = re.sub("\r", "", data)
-	return data.split("\n")
+	return data.splitlines()

@@ -7,11 +7,9 @@ function check_1($data) {
     $data[] = $max + 3;
     $current = 0;
     $diffs = [0, 0, 0, 0];
-    $chain = [];
     foreach($data as $i => $adapter) {
         $diff = $adapter - $current;
         if ($diff >= 1 and $diff <= 3) {
-            $chain[] = $adapter;
             $diffs[$diff]++;
             $current = $adapter;
         }
@@ -20,19 +18,19 @@ function check_1($data) {
     print "{$sum}\n";
 }
 
-function permutations($adapter, $data) {
+function permutations($key, $data) {
     static $total = [];
+    $adapter = $data[$key];
     if (isset($total[$adapter])) {
         return $total[$adapter];
     }
-    $key = array_search($adapter, $data);
     $i = $key + 1;
     if (!isset($data[$i])) {
         return 1;
     }
     $total[$adapter] = 0;
     while(isset($data[$i]) && (($data[$i] - $adapter) <= 3)) {
-        $total[$adapter] += permutations($data[$i], $data);
+        $total[$adapter] += permutations($i, $data);
         $i++;
     }
     return $total[$adapter];

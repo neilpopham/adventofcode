@@ -20,20 +20,19 @@ function check_1($data) {
 
 function permutations($key, $data) {
     static $total = [];
-    $adapter = $data[$key];
-    if (isset($total[$adapter])) {
-        return $total[$adapter];
+    if (isset($total[$key])) {
+        return $total[$key];
     }
     $i = $key + 1;
     if (!isset($data[$i])) {
         return 1;
     }
-    $total[$adapter] = 0;
-    while(isset($data[$i]) && (($data[$i] - $adapter) <= 3)) {
-        $total[$adapter] += permutations($i, $data);
+    $total[$key] = 0;
+    while(isset($data[$i]) && (($data[$i] - $data[$key]) <= 3)) {
+        $total[$key] += permutations($i, $data);
         $i++;
     }
-    return $total[$adapter];
+    return $total[$key];
 }
 
 function check_2($data) {

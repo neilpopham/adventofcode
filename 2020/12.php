@@ -16,9 +16,8 @@ function check_1($data) {
                 $dx = $value * $vector[$direction][0];
                 $dy = $value * $vector[$direction][1];
             } elseif (false !== $angle = array_search($action, ['L', 'R'])) {
-                $a += ([-1,1][$angle] * $value/90) % 4;
+                $a += [-1,1][$angle] * $value/90;
                 $a = ($a + 4) % 4;
-                print "{$angle} | {$value} | {$a}\n";
             } elseif ($action == "F") {
                 $dx = $value * $vector[$a][0];
                 $dy = $value * $vector[$a][1];
@@ -45,9 +44,10 @@ function check_2($data) {
                 $wx += $value * $vector[$direction][0];
                 $wy += $value * $vector[$direction][1];
             } elseif (false !== $angle = array_search($action, ['L', 'R'])) {
-                $degrees = rad2deg(atan2($wy, $wx));
-                $vx = cos(deg2rad($degrees + $value * [-1, 1][$angle])) <=> 0;
-                $vy = sin(deg2rad($degrees + $value * [-1, 1][$angle])) <=> 0;
+                $current = rad2deg(atan2($wy, $wx));
+                $updated = deg2rad($current + [-1, 1][$angle] * $value);
+                $vx = cos($updated) <=> 0;
+                $vy = sin($updated) <=> 0;
                 $tx = abs($value % 180 == 0 ? $wx : $wy) * $vx;
                 $wy = abs($value % 180 == 0 ? $wy : $wx) * $vy;
                 $wx = $tx;

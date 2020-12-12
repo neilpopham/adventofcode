@@ -2,8 +2,6 @@
 
 require('libs/core.php');
 
-
-
 function check_1($data) {
     $x = 0;
     $y = 0;
@@ -27,10 +25,9 @@ function check_1($data) {
             }
             $x += $dx;
             $y += $dy;
-            print "{$x}, {$y} from {$dx}|{$dy} ({$a}) [{$action} and {$value}]\n";
         }
     }
-    print (abs($x) + abs($y)) . "\n";    
+    print (abs($x) + abs($y)) . "\n";
 }
 
 function check_2($data) {
@@ -62,7 +59,7 @@ function check_2($data) {
             $y += $dy;
         }
     }
-    print (abs($x) + abs($y)) . "\n";    
+    print (abs($x) + abs($y)) . "\n";
 }
 
 $data = load_data("12.txt");

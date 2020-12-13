@@ -20,7 +20,7 @@ function check_1($data) {
         }
         $m++;
     }
-    $min = 999999;
+    $min = PHP_INT_MAX;
     foreach($closest as $bus => $time) {
         if ($time - $arrival < $min) {
             $min = $time - $arrival;
@@ -43,31 +43,29 @@ function check_2($data) {
     $count = count($numbers);
     $max_index = array_key_last($numbers);
 
-    $big = array_slice($numbers, -4, 4, true);
-    $lo = array_keys($big);
-    $ln = array_values($big);
-    $m = count($ln) - 1;
+    $biggies = array_slice($numbers, -4, 4, true);
+    $big_offsets = array_keys($biggies);
+    $big_numbers = array_values($biggies);
+    $max = count($big_numbers) - 1;
+
     $i = 1;
     while (true) {
-        $n = $i * $ln[$m];
-        $t = [];
-        $u = [];
-        $z = 0;
-        for ($j = 0; $j < $m; $j++) {
-            $t[$j] = $n + $lo[$j] - $lo[$m];
-            $u[$j] = $t[$j] % $ln[$j];
-            $z += $u[$j];
+        $number = $i * $big_numbers[$max];
+        $mod_total = 0;
+        for ($n = 0; $n < $max; $n++) {
+            $time = $number + $big_offsets[$n] - $big_offsets[$max];
+            $mod_total += $time % $big_numbers[$n];
         }
-        if ($z == 0) {
-            $start = $n;
+        if ($mod_total == 0) {
+            $start = $number;
             break;
         }
         $i++;
     }
 
     $step = 1;
-    foreach ($ln as $n) {
-        $step *= $n;
+    foreach ($big_numbers as $number) {
+        $step *= $number;
     }
 
     while (true) {

@@ -13,7 +13,6 @@ function check_1($data) {
             $binary = str_pad(decbin($number), 36, "0", STR_PAD_LEFT);
             foreach ($mask as $bit => $value) {
                 $binary[$bit] = $value;
-
             }
             $memory[$address] = bindec($binary);
         }

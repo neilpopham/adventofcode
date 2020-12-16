@@ -44,13 +44,11 @@ function check_2($data) {
                 $wx += $value * $vector[$direction][0];
                 $wy += $value * $vector[$direction][1];
             } elseif (false !== $angle = array_search($action, ['L', 'R'])) {
-                $current = rad2deg(atan2($wy, $wx));
-                $updated = deg2rad($current + [-1, 1][$angle] * $value);
-                $vx = cos($updated) <=> 0;
-                $vy = sin($updated) <=> 0;
-                $tx = abs($value % 180 == 0 ? $wx : $wy) * $vx;
-                $wy = abs($value % 180 == 0 ? $wy : $wx) * $vy;
-                $wx = $tx;
+                $da = [-1, 1][$angle] * $value / 90;
+                $sign = [[1, -1], [-1, 1]][$angle];
+                for ($i = 0; $i < abs($da); $i++) {
+                    list($wx, $wy) = array($wy * $sign[0], $wx * $sign[1]);
+                }
             } elseif ($action == "F") {
                 $dx = $wx * $value;
                 $dy = $wy * $value;

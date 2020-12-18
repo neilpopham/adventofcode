@@ -2,82 +2,74 @@
 
 require('libs/core.php');
 
+/**
+ * In this one we only worry about one z direction as they duplicate each other. This is why we double the count for non-zero z values.
+ * When checking a z of -1 we use 1 instead.
+ * We also keep z slices starting at 0,0, for clarity.
+ */
 function check_1($data) {
-    foreach ($data as $y => $row) {
-        for ($x = 0; $x < strlen($row); $x++) {
-            $cubes[0][$y][$x] = $row[$x] == "#";
-        }
-    }
+
+    $cubes[0] = $data;
+
     for ($t = 0; $t < 6; $t++) {
-        $meta = [
-            [array_keys($cubes)],
-            [array_keys($cubes[0])],
-            [array_keys($cubes[0][0])],
-        ];
-        foreach ($meta as $i => $dimension) {
-            $meta[$i][] = reset($dimension[0]);
-            $meta[$i][] = end($dimension[0]);
-        }
-        for ($z = $meta[0][1] - 1; $z <= $meta[0][2] + 1; $z++) {
-            if (!isset($cubes[$z])) {
-                foreach ($meta[1][0] as $y) {
-                    foreach ($meta[2][0] as $x) {
-                        $cubes[$z][$y][$x] = false;
-                    }
+
+        $yc = count($cubes[0]);
+        $xc = strlen($cubes[0][0]);
+
+        for ($z = 0; $z <= $t + 1; $z++) {
+            $cube = array_fill(0, $yc + 2, str_repeat(".", $xc + 2));
+            if (isset($cubes[$z])) {
+                foreach ($cubes[$z] as $y => $row) {
+                    $cube[$y + 1] = substr_replace($cube[$y], $row, 1, strlen($row));
                 }
             }
-            foreach ($meta[2][0] as $x) {
-                $cubes[$z][$meta[1][1] - 1][$x] = false;
-                $cubes[$z][$meta[1][2] + 1][$x] = false;
-            }
-            foreach (array_keys($cubes[$z]) as $y) {
-                $cubes[$z][$y][$meta[2][1] - 1] = false;
-                $cubes[$z][$y][$meta[2][2] + 1] = false;
-                ksort($cubes[$z][$y]);
-            }
-            ksort($cubes[$z]);
+            $cubes[$z] = $cube;
         }
-        ksort($cubes);
+
         $current = $cubes;
         foreach (array_keys($cubes) as $z) {
-            foreach (array_keys($current[$z]) as $y) {
-                foreach (array_keys($current[$z][$y]) as $x) {
+            foreach (array_keys($cubes[$z]) as $y) {
+                for ($x = 0; $x < strlen($cubes[$z][$y]); $x++) {
                     $n = find_neighbours($z, $x, $y, $cubes);
-                    if ($current[$z][$y][$x] && ($n < 2 || $n > 3)) {
-                        $current[$z][$y][$x] = false;
+                    if ($current[$z][$y][$x] == "#" && ($n < 2 || $n > 3)) {
+                        $current[$z][$y][$x] = ".";
                     } elseif ($n == 3) {
-                        $current[$z][$y][$x] = true;
+                        $current[$z][$y][$x] = "#";
                     }
                 }
             }
         }
         $cubes = $current;
     }
+
     $total = 0;
-    foreach ($cubes as $z => $row) {
-        foreach ($row as $y => $column) {
-            foreach ($column as $x => $value) {
-                if ($value) {
-                    $total++;
-                }
-            }
+    foreach ($cubes as $z => $slice) {
+        foreach ($slice as $y => $row) {
+            $total += ($z == 0 ? 1 : 2) * substr_count($row, "#");
         }
     }
+
     print "{$total} in total\n";
 }
 
-function find_neighbours($z, $x, $y, &$cubes) {
+function find_neighbours($z, $x, $y, $cubes) {
     $active = 0;
     for ($dz = -1; $dz <= 1; $dz++) {
         for ($dx = -1; $dx <= 1; $dx++) {
             for ($dy = -1; $dy <= 1; $dy++) {
-                if (($dz+$z == $z) && ($dy+$y == $y) && ($dx+$x == $x)) {
+                if (($dz + $z == $z) && ($dy + $y == $y) && ($dx + $x == $x)) {
                     continue;
                 }
-                if(isset($cubes[$z + $dz])
-                    && isset($cubes[$z + $dz][$y + $dy])
-                    && isset($cubes[$z + $dz][$y + $dy][$x + $dx])
-                    && ($cubes[$z + $dz][$y + $dy][$x + $dx])) {
+                if ($z + $dz == -1) {
+                    $cube = $cubes[1];
+                } elseif (!isset($cubes[$z + $dz])) {
+                    continue;
+                } else {
+                    $cube = $cubes[$z + $dz];
+                }
+                if(isset($cube[$y + $dy])
+                    && isset($cube[$y + $dy][$x + $dx])
+                    && ($cube[$y + $dy][$x + $dx] == "#")) {
                     $active++;
                 }
             }
@@ -86,85 +78,54 @@ function find_neighbours($z, $x, $y, &$cubes) {
     return $active;
 }
 
-function make_empty_2($meta) {
-    foreach ($meta[2][0] as $y) {
-        foreach ($meta[3][0] as $x) {
-            $slice[$y][$x] = false;
-        }
-    }
-    return $slice;
-}
-
 function check_2($data) {
-    foreach ($data as $y => $row) {
-        for ($x = 0; $x < strlen($row); $x++) {
-            $cubes[0][0][$y][$x] = $row[$x] == "#";
-        }
-    }
+    $cubes[0][0] = $data;
+
     for ($t = 0; $t < 6; $t++) {
-        $meta = [
-            [array_keys($cubes)],
-            [array_keys($cubes[0])],
-            [array_keys($cubes[0][0])],
-            [array_keys($cubes[0][0][0])],
-        ];
-        foreach ($meta as $i => $dimension) {
-            $meta[$i][] = reset($dimension[0]);
-            $meta[$i][] = end($dimension[0]);
-        }
-        for ($w = $meta[0][1] - 1; $w <= $meta[0][2] + 1; $w++) {
-            if (!isset($cubes[$w])) {
-                for ($z = $meta[0][1] - 1; $z <= $meta[0][2] + 1; $z++) {
-                    $cubes[$w][$z] = make_empty_2($meta);
+
+        $yc = count($cubes[0][0]);
+        $xc = strlen($cubes[0][0][0]);
+
+        for ($w = 0; $w <= $t + 1; $w++) {
+            for ($z = 0; $z <= $t + 1; $z++) {
+                $cube = array_fill(0, $yc + 2, str_repeat(".", $xc + 2));
+                if (isset($cubes[$w][$z])) {
+                    foreach ($cubes[$w][$z] as $y => $row) {
+                        $cube[$y + 1] = substr_replace($cube[$y], $row, 1, strlen($row));
+                    }
                 }
+                $cubes[$w][$z] = $cube;
             }
-            for ($z = $meta[0][1] - 1; $z <= $meta[0][2] + 1; $z++) {
-                if (!isset($cubes[$w][$z])) {
-                    $cubes[$w][$z] = make_empty_2($meta);
-                }
-                foreach ($meta[3][0] as $x) {
-                    $cubes[$w][$z][$meta[2][1] - 1][$x] = false;
-                    $cubes[$w][$z][$meta[2][2] + 1][$x] = false;
-                }
-                foreach (array_keys($cubes[$w][$z]) as $y) {
-                    $cubes[$w][$z][$y][$meta[3][1] - 1] = false;
-                    $cubes[$w][$z][$y][$meta[3][2] + 1] = false;
-                    ksort($cubes[$w][$z][$y]);
-                }
-                ksort($cubes[$w][$z]);
-            }
-            ksort($cubes[$w]);
         }
-        ksort($cubes);
+
         $current = $cubes;
-        foreach (array_keys($current) as $w) {
-            foreach (array_keys($current[$w]) as $z) {
-                foreach (array_keys($current[$w][$z]) as $y) {
-                    foreach (array_keys($current[$w][$z][$y]) as $x) {
+        foreach (array_keys($cubes) as $w) {
+            foreach (array_keys($cubes[$w]) as $z) {
+                foreach (array_keys($cubes[$w][$z]) as $y) {
+                    for ($x = 0; $x < strlen($cubes[$w][$z][$y]); $x++) {
                         $n = find_neighbours_2($w, $z, $x, $y, $cubes);
-                        if ($current[$w][$z][$y][$x] && ($n < 2 || $n > 3)) {
-                            $current[$w][$z][$y][$x] = false;
+                        if ($current[$w][$z][$y][$x] == "#" && ($n < 2 || $n > 3)) {
+                            $current[$w][$z][$y][$x] = ".";
                         } elseif ($n == 3) {
-                            $current[$w][$z][$y][$x] = true;
+                            $current[$w][$z][$y][$x] = "#";
                         }
                     }
                 }
             }
         }
+
         $cubes = $current;
     }
+
     $total = 0;
-    foreach ($cubes as $w => $slice) {
-        foreach ($slice as $z => $row) {
-            foreach ($row as $y => $column) {
-                foreach ($column as $x => $value) {
-                    if ($value) {
-                        $total++;
-                    }
-                }
+    foreach ($cubes as $w => $dimension) {
+        foreach ($dimension as $z => $slice) {
+            foreach ($slice as $y => $row) {
+                $total += ($w == 0 ? 1 : 2) * ($z == 0 ? 1 : 2) * substr_count($row, "#");
             }
         }
     }
+
     print "{$total} in total\n";
 }
 
@@ -174,14 +135,26 @@ function find_neighbours_2($w, $z, $x, $y, &$cubes) {
         for ($dz = -1; $dz <= 1; $dz++) {
             for ($dx = -1; $dx <= 1; $dx++) {
                 for ($dy = -1; $dy <= 1; $dy++) {
-                    if (($dw+$w == $w) && ($dz+$z == $z) && ($dy+$y == $y) && ($dx+$x == $x)) {
+                    if (($dw + $w == $w) && ($dz + $z == $z) && ($dy + $y == $y) && ($dx + $x == $x)) {
                         continue;
                     }
-                    if(isset($cubes[$w + $dw])
-                        && isset($cubes[$w + $dw][$z + $dz])
-                        && isset($cubes[$w + $dw][$z + $dz][$y + $dy])
-                        && isset($cubes[$w + $dw][$z + $dz][$y + $dy][$x + $dx])
-                        && ($cubes[$w + $dw][$z + $dz][$y + $dy][$x + $dx])) {
+                    if ($w + $dw == -1) {
+                        $cube = $cubes[1];
+                    } elseif (!isset($cubes[$w + $dw])) {
+                        continue;
+                    } else {
+                        $cube = $cubes[$w + $dw];
+                    }
+                    if ($z + $dz == -1) {
+                        $cube = $cube[1];
+                    } elseif (!isset($cubes[$z + $dz])) {
+                        continue;
+                    } else {
+                        $cube = $cube[$z + $dz];
+                    }
+                    if(isset($cube[$y + $dy])
+                        && isset($cube[$y + $dy][$x + $dx])
+                        && ($cube[$y + $dy][$x + $dx] == "#")) {
                         $active++;
                     }
                 }

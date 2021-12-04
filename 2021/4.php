@@ -26,10 +26,12 @@ function part2($numbers, $boards) {
 }
 
 function parts($numbers, $boards, $part2) {
-	$count = count($boards);
-	$complete = array_fill(0, $count, false);
+	$complete = array_fill(0, count($boards), false);
 	foreach ($numbers as $number) {
 		foreach ($boards as $b => &$board) {
+			if ($complete[$b]) {
+				continue;
+			}
 			foreach ($board as $r => $row) {
 				foreach($row as $c => $col) {
 					if ($col == $number) {
@@ -38,11 +40,8 @@ function parts($numbers, $boards, $part2) {
 							$done = true;
 							if ($part2) {
 								$complete[$b] = true;	
-								foreach ($complete as $value) {
-									if (!$value) {
-										$done = false;
-									}
-								}
+								$incomplete = array_filter($complete, function($x) { return !$x; });
+								$done = count($incomplete) == 0;
 							}
 							if ($done) {
 								$sum = 0;

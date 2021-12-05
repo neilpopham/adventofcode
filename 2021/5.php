@@ -2,10 +2,10 @@
 
 require('libs/core.php');
 
-function part1($coords, $ignore = true) {
+function part1($coords) {
 	$vents = [];
 	foreach ($coords as $p) {
-		if ($ignore && ($p[0] != $p[2]) && ($p[1] != $p[3])) {
+		if (($p[0] != $p[2]) && ($p[1] != $p[3])) {
 			continue;
 		}
 		$x1 = min($p[0], $p[2]);

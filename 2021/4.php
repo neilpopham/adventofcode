@@ -3,16 +3,16 @@
 require('libs/core.php');
 
 function check($board, $r, $c) {
-	$found = true;				
-	foreach ($board as $i => $row) {
-		if ($row[$c] > -1) {
-			$found = false;
-			break;
-		} 		
-	}
+	$failed = array_filter($board[$r], function($x) { return $x > -1; });
+	$found = count($failed) == 0;
 	if (!$found) {
-		$failed = array_filter($board[$r], function($x) { return $x > -1; });
-		$found = count($failed) == 0;
+		$found = true;				
+		foreach ($board as $i => $row) {
+			if ($row[$c] > -1) {
+				$found = false;
+				break;
+			} 		
+		}
 	}
 	return $found;
 }
@@ -66,7 +66,7 @@ $boards = [];
 $board = -1;
 foreach ($data as $value) {
 	$value = trim($value);
-	if (empty(trim($value))) {
+	if (empty($value)) {
 		$board++;
 		continue;
 	}

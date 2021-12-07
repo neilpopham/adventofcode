@@ -23,16 +23,7 @@ function parts($data, $func) {
 $raw = file_get_contents('data/7.txt');
 $data = explode(',', $raw);
 
-$func = function($n) { return $n; };
-print parts($data, $func);
+print parts($data, fn($n) => $n);
 print "\n";
-
-$func = function($n) {
-	$sum = 0;
-	for ($i = $n; $i >= 1; $i--) {
-		$sum += $i;
-	}
-	return $sum;
-};
-print parts($data, $func);
+print parts($data, fn($n) => ($n * ($n + 1)) / 2);
 print "\n";

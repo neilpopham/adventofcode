@@ -26,11 +26,9 @@ function _init()
   "2857275182",
   "4821156644",
  }
-
  for y,row in pairs(data) do
-   data[y] = split(row, "", true)
+   data[y] = split(row,"",true)
  end
-
  ticks=0
  total=0
  limit=100
@@ -41,11 +39,10 @@ function _init()
  for x=-1,1 do
   for y=-1,1 do
    if not (x==0 and y==0) then
-    add(offsets, {x, y})
+    add(offsets,{x,y})
    end
   end
  end
-
 end
 
 function _update()
@@ -58,11 +55,11 @@ function _update()
  for y,row in pairs(data) do
   for x,_ in pairs(row) do
    data[y][x]+=1
-   add(queue, {x, y})
+   add(queue,{x,y})
   end
  end
  while #queue>0 do
-  local item=del(queue, queue[1])
+  local item=del(queue,queue[1])
   local x=item[1]
   local y=item[2]
   local energy=data[y][x]
@@ -76,7 +73,7 @@ function _update()
      energy=data[oy][ox]==nil and 0 or data[oy][ox]
      if energy>0 then
       data[oy][ox]+=1
-      add(queue,{ox, oy})
+      add(queue,{ox,oy})
      end
     end
    end

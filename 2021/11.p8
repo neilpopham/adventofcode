@@ -1,7 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
 version 29
 __lua__
---
+-- advent of code day 11 2021
 -- by neil popham
 
 function round(x)
@@ -13,62 +13,7 @@ function lpad(x,n)
  return sub("0000000"..x,-n)
 end
 
-function storedigits()
- cls()
- print("0123456789",0,0,7)
- pixels={}
- for n=0,9 do
-  pixels[n+1]={}
-  for x=1,3 do
-   pixels[n+1][x]={}
-   for y=1,7 do
-    if pget(x-1+n*4,y-1)==7 then pixels[n+1][x][y]=1 end
-   end
-  end
- end
-end
-
-function drawstoreddigit(d,x,y,c,w,h)
- w=w or 4
- h=h or 4
- for px,a in pairs(pixels[d+1]) do
-  for py,_ in pairs(a) do
-   local x1=x+(px-1)*w
-   local y1=y+(py-1)*h
-   rectfill(x1,y1,x1+w-1,y1+h-1,c)
-   --pset(x1,y1,9)
-  end
- end
- return w*3
-end
-
-function drawstorednumber(n,x,y,c,w,h)
- w=w or 4
- h=h or 4
- local s=tostr(n)
- for i=1,#s do
-  local w=drawstoreddigit(sub(s,i,i),x,y,c,w,h)
-  x+=w+2
- end
-end
-
 function _init()
-
- storedigits()
-
- data={
-  "5483143223",
-  "2745854711",
-  "5264556173",
-  "6141336146",
-  "6357385478",
-  "4167524645",
-  "2176841721",
-  "6882881134",
-  "4846848554",
-  "5283751526",
- }
-
  data={
   "5251578181",
   "6158452313",
@@ -87,11 +32,11 @@ function _init()
  end
 
  ticks=0
- total=0;
- limit=100;
+ total=0
+ limit=100
  flashes=0
  turn=0
- totalat100=0
+ total100=0
  offsets={};
  for x=-1,1 do
   for y=-1,1 do
@@ -108,7 +53,6 @@ function _update()
  ticks+=1
  if flashes==100 then return end
  turn+=1
- printh(turn.." "..total)
  queue={}
  flashes=0
  for y,row in pairs(data) do
@@ -118,10 +62,10 @@ function _update()
   end
  end
  while #queue>0 do
-  item=del(queue, queue[1])
+  local item=del(queue, queue[1])
   local x=item[1]
   local y=item[2]
-  energy=data[y][x]
+  local energy=data[y][x]
   if energy>9 then
    data[y][x]=0
    flashes+=1
@@ -139,10 +83,7 @@ function _update()
   end
  end
  total+=flashes
- if turn==limit then
-  totalat100=total
-  printh("total:"..total)
- end
+ if turn==limit then total100=total end
 end
 
 function _draw()
@@ -154,19 +95,12 @@ function _draw()
    local sx=x*10
    local sy=y*10
    local size=energy==0 and 10 or energy
-   --if (energy>0) then
-    sx+=(ceil(5-size/2))
-    sy+=(ceil(5-size/2))
-   --end
+   sx+=(round(5-size/2))
+   sy+=(round(5-size/2))
    rectfill(sx,sy,sx+size,sy+size,energy==0 and 7 or cols[energy])
   end
  end
- if turn>=limit then
-  --drawstorednumber(totalat100,30,91,8,4,4)
-  --drawstorednumber(totalat100,30,90,14,4,4)
- end
  print("turn:"..lpad(turn,3),11,2,10)
- print("flashes:"..lpad(totalat100==0 and total or totalat100,4),64,2,11)
- --print(ticks,0,120,1)
+ print("flashes:"..lpad(total100==0 and total or total100,4),64,2,11)
  ticks+=1
 end

@@ -33,9 +33,17 @@ class AdventofCodeLines implements Iterator {
     }
 
     /**
+     * Return an array of lines.
+     * @return  string[]                                    An array of lines.
+     */
+    function raw() {
+        return $this->raw;
+    }
+
+    /**
      * Test each line for a regular expression and return a collection of matches.
      * @param   string              $regex                  The regex to test.
-     * @return  array                                       An array of matches.
+     * @return  string[]                                    An array of matches.
      */
     function regex($regex) {
         $parsed = [];
@@ -122,13 +130,16 @@ class AdventOfCode {
     }
 
     /**
-     * Returns data fora given day. Can use a local cache and will revert to the live file.
+     * Returns data for a given day. Can use a local cache and will revert to the live file.
      * @param   integer             $day                    The puzzle day.
      * @param   boolean             $force                  Whether to force requerying the live file.
      * @return  AdventOfCodeData                            A class that can provide further parsing of the data.
      */
     public function input($day, $force = false) {
         $path = str_replace('{day}', $day, $this->path);
+        if (strrpos($path, '/') !== 0) {
+            $path = __DIR__ . "/{$path}";
+        }
         $data = false;
         if (($this->cache) && (!$force) && file_exists($path)) {
             print "from cache\n";
@@ -148,33 +159,3 @@ class AdventOfCode {
         return new AdventOfCodeData($data);
     }
 }
-
-$api = new AdventOfCode();
-
-
-print '|' . $api->session . "|\n";
-
-echo $api->input(6);
-print_r($api->input(5)->lines());
-
-$lines = $api->input(5)->lines();
-var_dump($lines);
-
-foreach ($lines as $key => $value) {
-    print "{$key} = {$value}\n";
-}
-
-exit;
-echo $api->input(5)->lines();
-
-
-exit;
-var_dump($api->input(6)->csv());
-
-exit;
-
-print_r($api->input(5)->lines());
-
-var_dump($api->input(5)->lines()->regex('/(\d+),(\d+)\s?\->\s?(\d+),(\d+)/'));
-
-exit("\n");

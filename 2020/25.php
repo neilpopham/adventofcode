@@ -4,9 +4,8 @@ require(__DIR__ . '/libs/core.php');
 
 function transform($loop, $subject) {
     $number = 1;
-    for($i = 0; $i < $loop; $i++) {
-        $number *= $subject;
-        $number = fmod($number, 20201227);
+    for ($i = 0; $i < $loop; $i++) {
+        $number = fmod($number * $subject, 20201227);
     }
     return $number;
 }
@@ -15,8 +14,7 @@ function loop($key, $subject = 7) {
     $number = 1;
     $loop = 0;
     while ($number != $key) {
-        $number *= $subject;
-        $number = fmod($number, 20201227);
+        $number = fmod($number * $subject, 20201227);
         $loop++;
     }
     return $loop;

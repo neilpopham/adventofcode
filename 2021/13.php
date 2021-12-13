@@ -24,10 +24,8 @@ function fold_x($fold, $points) {
 		foreach ($row as $x => $value) {
 			if ($x > $fold) {
 				$new = $fold - ($x - $fold);
-				//print "$x -> $new \n";
 				$points[$y][$new] = 1;
 				unset($points[$y][$x]);
-
 			}
 		}
 		ksort($points[$y]);
@@ -69,8 +67,7 @@ foreach ($data as $value) {
 			$points[$matches[2]] = [];
 		}
 		$points[$matches[2]][$matches[1]] = 1;
-	}
-	if (preg_match('/^fold along (x|y)=(\d+)$/', $value, $matches)) {
+	} else if (preg_match('/^fold along (x|y)=(\d+)$/', $value, $matches)) {
 		$folds[] = array_slice($matches, 1);
 	}
 }

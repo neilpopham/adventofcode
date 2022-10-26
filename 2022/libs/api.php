@@ -123,8 +123,10 @@ class AdventOfCodeData {
  */
 class AdventOfCode {
 
+    const YEAR = 2021;
+
     public $session;
-    public $path = 'data/{day}.txt';
+    public $path = 'data/{name}.txt';
     public $cache = true;
 
     /**
@@ -134,8 +136,8 @@ class AdventOfCode {
      */
     function __construct($session = null) {
         if (is_null($session)) {
-            if (file_exists('session.txt')) {
-                $this->session = trim(file_get_contents('session.txt'));
+            if (file_exists(__DIR__ . '/session.txt')) {
+                $this->session = trim(file_get_contents(__DIR__ . '/session.txt'));
             }
         } else {
             $this->session = $session;
@@ -156,8 +158,9 @@ class AdventOfCode {
             $data = file_get_contents($path);
         }
         if (false === $data) {
+            $year = self::YEAR;
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "https://adventofcode.com/2021/day/{$day}/input");
+            curl_setopt($ch, CURLOPT_URL, "https://adventofcode.com/{$year}/day/{$day}/input");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, ['Cookie: session=' . $this->session]);
             $data = curl_exec($ch);

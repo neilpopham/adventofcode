@@ -103,6 +103,19 @@ class AdventOfCodeData {
     public function csv() {
         return array_map(fn($x) => (int) $x, explode(',', $this->raw));
     }
+
+    /**
+     * Load data from file.
+     * @param   string              $filename               The name of the file stored in the data folder.
+     * @return  void
+     */
+    public function load($filename) {
+        $path = __DIR__ . "data/{$filename}.txt";
+        if (strrpos($path, '/') !== 0) {
+            $path = __DIR__ . "/{$path}";
+        }        
+        $this->raw = file_get_contents($path);
+    }
 }
 
 /**
@@ -135,11 +148,8 @@ class AdventOfCode {
      * @param   boolean             $force                  Whether to force requerying the live file.
      * @return  AdventOfCodeData                            A class that can provide further parsing of the data.
      */
-    public function input($day, $force = false) {
-        $path = str_replace('{day}', $day, $this->path);
-        if (strrpos($path, '/') !== 0) {
-            $path = __DIR__ . "/{$path}";
-        }
+    public function input(int $day, bool$force = false): AdventOfCodeData {
+        $path = $this->calculatePath($day);
         $data = false;
         if (($this->cache) && (!$force) && file_exists($path)) {
             print "from cache\n";
@@ -157,5 +167,28 @@ class AdventOfCode {
             }
         }
         return new AdventOfCodeData($data);
+    }
+
+    /**
+     * Load data from file.
+     * @param   string              $filename               The name of the file stored in the data folder.
+     * @return  void
+     */
+    public function load($filename) {     
+        $data = file_get_contents($$this->calculatePath($filename));
+        return new AdventOfCodeData($data);
+    }
+
+    /**
+     * Calculates the path to a file.
+     * @param   string              $name                   The puzzle day.
+     * @return  string
+     */
+    public function calculatePath(?string $name): string {
+        $path = str_replace('{name}', $name, $this->path);
+        if (strrpos($path, '/') !== 0) {
+            $path = __DIR__ . "/{$path}";
+        }     
+        return $path;   
     }
 }

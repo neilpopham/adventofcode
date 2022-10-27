@@ -43,13 +43,15 @@ class AdventofCodeLines implements Iterator {
     /**
      * Test each line for a regular expression and return a collection of matches.
      * @param   string              $regex                  The regex to test.
+     * @param   bool                $slice                  Whether to remove the full match at index 0.
      * @return  string[]                                    An array of matches.
      */
-    function regex($regex) {
+    function regex($regex, $slice = true) {
         $parsed = [];
-        foreach ($this->raw as $value) {
+        foreach ($this->raw as $i => $value) {
             if (preg_match($regex, $value, $matches)) {
-                $parsed[] = array_map(fn($x) => preg_match('/^(\d+)$/', $x) ? (int) $x : $x, $matches);
+                $parsed[$i] = array_map(fn($x) => preg_match('/^(\d+)$/', $x) ? (int) $x : $x, $slice ? array_slice($matches, 1) : $matches);
+
             }
         }
         return $parsed;

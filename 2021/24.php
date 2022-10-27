@@ -2,9 +2,55 @@
 
 require('libs/api.php');
 
+/*
+$s = "inp z
+inp x
+mul z 3
+eql z x";
+$data = (new AdventOfCodeData($s))->lines()->regex('/^(\w{3}) (\w+)(?: (\w+))*$/');
+$input = '39';
+alu($input);
+exit;
+*/
+
+/*
+$s = "inp w
+add z w
+mod z 2
+div w 2
+add y w
+mod y 2
+div w 2
+add x w
+mod x 2
+div w 2
+mod w 2";
+$data = (new AdventOfCodeData($s))->lines()->regex('/^(\w{3}) (\w+)(?: (\w+))*$/');
+$input = '3';
+alu($input);
+exit;
+*/
+
 $data = (new AdventOfCode())->input(24)->lines()->regex('/^(\w{3}) (\w+)(?: (\w+))*$/');
 
-$input = [];
+$i = -1;
+$parts = [];
+foreach ($data as $row) {
+    print_r($row);
+    if ($row[0] == 'inp') {
+        $i++;
+    }
+    $parts[$i][] = $row;
+}
+
+print_r($parts);
+
+$data = $parts[0];
+for ($i = 1; $i < 10; $i++) { 
+    alu($i);
+}
+
+exit;
 
 $input = array_fill(0, 14, 9);
 
@@ -23,18 +69,7 @@ while (false === $success) {
     $success = alu(implode('', $input));
 }
 
-
-/*
-$input = '99999999999999';
-
-$s = "inp z
-inp x
-mul z 3
-eql z x";
-
-$data = (new AdventOfCodeData($s))->lines()->regex('/^(\w{3}) (\w+)(?: (\w+))*$/');
-$input = '39';
-*/
+print_r($input);
 
 function alu(string $input): bool {
     global $data;
@@ -47,7 +82,6 @@ function alu(string $input): bool {
     print "{$input}\n";
 
     foreach ($data as $key => $value) {
-        array_shift($value);
         $operation = array_shift($value);
         if (isset($value[1]) && preg_match('/^[w-z]$/', $value[1])) {
             $value[1] = $v[$value[1]];
@@ -63,7 +97,7 @@ function alu(string $input): bool {
                 $v[$value[0]] *= $value[1];
                 break;
             case 'div':
-                $v[$value[0]] = round($v[$value[0]] / $value[1]);
+                $v[$value[0]] = floor($v[$value[0]] / $value[1]);
                 break;
             case 'mod':
                 $v[$value[0]] %= $value[1];
@@ -74,5 +108,7 @@ function alu(string $input): bool {
         }
     }
 
-    return $v['z'] = 0;
+    print_r($v);
+
+    return $v['z'] == 0;
 }

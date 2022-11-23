@@ -50,7 +50,10 @@ class AdventofCodeLines implements Iterator {
         $parsed = [];
         foreach ($this->raw as $i => $value) {
             if (preg_match($regex, $value, $matches)) {
-                $parsed[$i] = array_map(fn($x) => preg_match('/^(\d+)$/', $x) ? (int) $x : $x, $slice ? array_slice($matches, 1) : $matches);
+                $parsed[$i] = array_map(
+                    fn($x) => preg_match('/^(\d+)$/', $x) ? (int) $x : $x,
+                    $slice ? array_slice($matches, 1) : $matches
+                );
 
             }
         }
@@ -115,7 +118,7 @@ class AdventOfCodeData {
         $path = __DIR__ . "data/{$filename}.txt";
         if (strrpos($path, '/') !== 0) {
             $path = __DIR__ . "/{$path}";
-        }        
+        }
         $this->raw = file_get_contents($path);
     }
 }
@@ -125,7 +128,7 @@ class AdventOfCodeData {
  */
 class AdventOfCode {
 
-    const YEAR = 2021;
+    const YEAR = 2022;
 
     public $session;
     public $path = 'data/{name}.txt';
@@ -179,7 +182,7 @@ class AdventOfCode {
      * @param   string              $filename               The name of the file stored in the data folder.
      * @return  void
      */
-    public function load($filename) {     
+    public function load($filename) {
         $data = file_get_contents($$this->calculatePath($filename));
         return new AdventOfCodeData($data);
     }
@@ -193,7 +196,7 @@ class AdventOfCode {
         $path = str_replace('{name}', $name, $this->path);
         if (strrpos($path, '/') !== 0) {
             $path = __DIR__ . "/{$path}";
-        }     
-        return $path;   
+        }
+        return $path;
     }
 }

@@ -80,7 +80,7 @@ class AdventOfCodeData {
      * Magic method so we can just use > echo $api->input(2);
      * @return  string                                      The raw data.
      */
-    function __toString() {
+    function __toString(): string {
         return $this->raw;
     }
 
@@ -88,7 +88,7 @@ class AdventOfCodeData {
      * Get the raw data.
      * @return  string                                      The raw data.
      */
-    public function raw() {
+    public function raw(): string {
         return $this->raw;
     }
 
@@ -96,7 +96,7 @@ class AdventOfCodeData {
      * Parse the data and return an array of lines.
      * @return  string[]                                       An array of lines.
      */
-    public function lines() {
+    public function lines(): AdventofCodeLines {
         $data = preg_replace('/\r*\n/', "\n", trim($this->raw));
         return new AdventofCodeLines(explode("\n", $data));
     }
@@ -105,7 +105,7 @@ class AdventOfCodeData {
      * Parse the data as one line of comma-separated values and return an array of values.
      * @return  int[]                                       An array of values.
      */
-    public function csv() {
+    public function csv(): array {
         return array_map(fn($x) => (int) $x, explode(',', $this->raw));
     }
 
@@ -114,7 +114,7 @@ class AdventOfCodeData {
      * @param   string              $filename               The name of the file stored in the data folder.
      * @return  void
      */
-    public function load($filename) {
+    public function load(string $filename): void {
         $path = __DIR__ . "data/{$filename}.txt";
         if (strrpos($path, '/') !== 0) {
             $path = __DIR__ . "/{$path}";
@@ -139,7 +139,7 @@ class AdventOfCode {
      * @param   string              $session                The session value. If omitted the method will look for session.txt.
      * @return  void
      */
-    function __construct($session = null) {
+    function __construct(?string $session = null) {
         if (is_null($session)) {
             if (file_exists(__DIR__ . '/session.txt')) {
                 $this->session = trim(file_get_contents(__DIR__ . '/session.txt'));
@@ -155,7 +155,7 @@ class AdventOfCode {
      * @param   boolean             $force                  Whether to force requerying the live file.
      * @return  AdventOfCodeData                            A class that can provide further parsing of the data.
      */
-    public function input(int $day, bool$force = false): AdventOfCodeData {
+    public function input(int $day, bool $force = false): AdventOfCodeData {
         $path = $this->calculatePath($day);
         $data = false;
         if (($this->cache) && (!$force) && file_exists($path)) {
@@ -166,8 +166,12 @@ class AdventOfCode {
             $year = self::YEAR;
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "https://adventofcode.com/{$year}/day/{$day}/input");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, ['Cookie: session=' . $this->session]);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             $data = curl_exec($ch);
             curl_close($ch);
             if ($this->cache) {
@@ -180,9 +184,9 @@ class AdventOfCode {
     /**
      * Load data from file.
      * @param   string              $filename               The name of the file stored in the data folder.
-     * @return  void
+     * @return  AdventOfCodeData
      */
-    public function load($filename) {
+    public function load(string $filename): AdventOfCodeData {
         $data = file_get_contents($$this->calculatePath($filename));
         return new AdventOfCodeData($data);
     }

@@ -159,7 +159,6 @@ class AdventOfCode {
         $path = $this->calculatePath($day);
         $data = false;
         if (($this->cache) && (!$force) && file_exists($path)) {
-            print "from cache\n";
             $data = file_get_contents($path);
         }
         if (false === $data) {

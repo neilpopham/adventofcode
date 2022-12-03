@@ -1,5 +1,5 @@
 <?php
-require('libs/api.php');
+require 'libs/api.php';
 
 $data = (new AdventOfCode())->input(3)->lines()->raw();
 

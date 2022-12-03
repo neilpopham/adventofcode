@@ -1,6 +1,6 @@
 <?php
 
-require('libs/api.php');
+require 'libs/api.php';
 
 $api = new AdventOfCode();
 

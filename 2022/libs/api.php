@@ -20,28 +20,30 @@ class AdventofCodeLines implements Iterator
         $this->position = 0;
     }
 
-    // Iterator methods
-    public function rewind():void
+    /**
+     * Iterator methods
+     */
+    public function rewind(): void
     {
         $this->position = 0;
     }
 
-    public function current():mixed
+    public function current(): mixed
     {
         return $this->raw[$this->position];
     }
 
-    public function key():mixed
+    public function key(): mixed
     {
         return $this->position;
     }
 
-    public function next():void
+    public function next(): void
     {
         ++$this->position;
     }
 
-    public function valid():bool
+    public function valid(): bool
     {
         return isset($this->raw[$this->position]);
     }
@@ -51,7 +53,7 @@ class AdventofCodeLines implements Iterator
      *
      * @return string                                      The array of lines joined with a single line feed.
      */
-    function __toString()
+    function __toString(): string
     {
         return implode("\n", $this->raw);
     }
@@ -61,7 +63,7 @@ class AdventofCodeLines implements Iterator
      *
      * @return string[]                                    An array of lines.
      */
-    function raw()
+    function raw(): array
     {
         return $this->raw;
     }
@@ -73,7 +75,7 @@ class AdventofCodeLines implements Iterator
      * @param  bool   $slice Whether to remove the full match at index 0.
      * @return string[]                                    An array of matches.
      */
-    function regex($regex, $slice = true)
+    function regex(string $regex, bool $slice = true): array
     {
         $parsed = [];
         foreach ($this->raw as $i => $value) {
@@ -82,7 +84,6 @@ class AdventofCodeLines implements Iterator
                     fn($x) => preg_match('/^(\d+)$/', $x) ? (int) $x : $x,
                     $slice ? array_slice($matches, 1) : $matches
                 );
-
             }
         }
         return $parsed;
@@ -94,7 +95,6 @@ class AdventofCodeLines implements Iterator
  */
 class AdventOfCodeData
 {
-
     public $raw;
 
     /**

@@ -5,8 +5,7 @@
  */
 class AdventofCodeLines implements Iterator
 {
-
-    private $position = 0;
+    private $position;
     public $raw;
 
     /**

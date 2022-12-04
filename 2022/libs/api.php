@@ -52,7 +52,7 @@ class AdventofCodeLines implements Iterator
      *
      * @return string                                      The array of lines joined with a single line feed.
      */
-    function __toString(): string
+    public function __toString(): string
     {
         return implode("\n", $this->raw);
     }
@@ -62,7 +62,7 @@ class AdventofCodeLines implements Iterator
      *
      * @return string[]                                    An array of lines.
      */
-    function raw(): array
+    public function raw(): array
     {
         return $this->raw;
     }
@@ -74,7 +74,7 @@ class AdventofCodeLines implements Iterator
      * @param  bool   $slice Whether to remove the full match at index 0.
      * @return string[]                                    An array of matches.
      */
-    function regex(string $regex, bool $slice = true): array
+    public function regex(string $regex, bool $slice = true): array
     {
         $parsed = [];
         foreach ($this->raw as $i => $value) {

@@ -147,21 +147,6 @@ class AdventOfCodeData
     {
         return array_map(fn($x) => (int) $x, explode(',', $this->raw));
     }
-
-    /**
-     * Load data from file.
-     *
-     * @param  string $filename The name of the file stored in the data folder.
-     * @return void
-     */
-    public function load(string $filename): void
-    {
-        $path = __DIR__ . "data/{$filename}.txt";
-        if (strrpos($path, '/') !== 0) {
-            $path = __DIR__ . "/{$path}";
-        }
-        $this->raw = file_get_contents($path);
-    }
 }
 
 /**

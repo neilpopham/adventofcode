@@ -11,9 +11,11 @@ class AdventofCodeLines implements Iterator
     /**
      * Instantiate using raw array from AdventOfCodeData::lines.
      *
-     * @return void
+     * @param   string|null         $raw
+     *
+     * @return  void
      */
-    public function __construct($raw)
+    public function __construct(?string $raw)
     {
         $this->raw = $raw;
         $this->position = 0;
@@ -50,7 +52,7 @@ class AdventofCodeLines implements Iterator
     /**
      * Magic method so we can just use > echo $api->input(2)->lines();
      *
-     * @return string                                      The array of lines joined with a single line feed.
+     * @return string                                       The array of lines joined with a single line feed.
      */
     public function __toString(): string
     {
@@ -60,7 +62,7 @@ class AdventofCodeLines implements Iterator
     /**
      * Return an array of lines.
      *
-     * @return string[]                                    An array of lines.
+     * @return                      string[]                An array of lines.
      */
     public function raw(): array
     {
@@ -70,9 +72,9 @@ class AdventofCodeLines implements Iterator
     /**
      * Test each line for a regular expression and return a collection of matches.
      *
-     * @param  string $regex The regex to test.
-     * @param  bool   $slice Whether to remove the full match at index 0.
-     * @return string[]                                    An array of matches.
+     * @param  string               $regex                  The regex to test.
+     * @param  bool                 $slice                  Whether to remove the full match at index 0.
+     * @return string[]                                     An array of matches.
      */
     public function regex(string $regex, bool $slice = true): array
     {
@@ -99,9 +101,10 @@ class AdventOfCodeData
     /**
      * Instantiate using raw data from site.
      *
-     * @return void
+     * @param   string|null         $raw
+     * @return  void
      */
-    public function __construct($raw)
+    public function __construct(?string $raw)
     {
         $this->raw = $raw;
     }
@@ -109,7 +112,7 @@ class AdventOfCodeData
     /**
      * Magic method so we can just use > echo $api->input(2);
      *
-     * @return string                                      The raw data.
+     * @return string                                       The raw data.
      */
     public function __toString(): string
     {
@@ -119,18 +122,20 @@ class AdventOfCodeData
     /**
      * Get the raw data.
      *
-     * @return string                                      The raw data.
+     * @param   bool                $trim                   Whether to trim the raw text.
+     *
+     * @return string                                       The raw data.
      */
-    public function raw(): string
+    public function raw(bool $trim = true): string
     {
         return $this->raw;
     }
 
     /**
      * Parse the data and return an array of lines.
-
-     * @param   bool                $trim                      Whether to trim the raw text.
-     * @return  string[]                                       An array of lines.
+     *
+     * @param   bool                $trim                   Whether to trim the raw text.
+     * @return  string[]                                    An array of lines.
      */
     public function lines(bool $trim = true): AdventofCodeLines
     {
@@ -141,7 +146,7 @@ class AdventOfCodeData
     /**
      * Parse the data as one line of comma-separated values and return an array of values.
      *
-     * @return int[]                                       An array of values.
+     * @return int[]                                        An array of values.
      */
     public function csv(): array
     {
@@ -163,7 +168,7 @@ class AdventOfCode
     /**
      * Class constructor.
      *
-     * @param  string $session The session value. If omitted the method will look for session.txt.
+     * @param  string               $session                The session value. If omitted the method will look for session.txt.
      * @return void
      */
     public function __construct(?string $session = null)
@@ -180,9 +185,9 @@ class AdventOfCode
     /**
      * Returns data for a given day. Can use a local cache and will revert to the live file.
      *
-     * @param  integer $day   The puzzle day.
-     * @param  boolean $force Whether to force requerying the live file.
-     * @return AdventOfCodeData                            A class that can provide further parsing of the data.
+     * @param  integer              $day                    The puzzle day.
+     * @param  boolean              $force                  Whether to force requerying the live file.
+     * @return AdventOfCodeData                             A class that can provide further parsing of the data.
      */
     public function input(int $day, bool $force = false): AdventOfCodeData
     {
@@ -216,7 +221,7 @@ class AdventOfCode
     /**
      * Load data from file.
      *
-     * @param  string $filename The name of the file stored in the data folder.
+     * @param  string               $filename               The name of the file stored in the data folder.
      * @return AdventOfCodeData
      */
     public function load(string $filename): AdventOfCodeData
@@ -228,7 +233,7 @@ class AdventOfCode
     /**
      * Calculates the path to a file.
      *
-     * @param  string $name The puzzle day.
+     * @param  string               $name                   The puzzle day.
      * @return string
      */
     public function calculatePath(?string $name): string

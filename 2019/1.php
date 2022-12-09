@@ -17,7 +17,6 @@ foreach ($data as $mass) {
         if ($value > 0) {
             $fuel += $value;
         }
-        // print "{$fuel}\n";
     }
 }
 print "{$fuel}\n";

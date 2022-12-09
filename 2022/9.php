@@ -7,15 +7,12 @@ function check($data, $num)
 {
     $pos["0|0"] = 1;
     $map = ['U' => [0, 1], 'D' => [0, -1], 'L' => [-1, 0], 'R' => [1, 0]];
-    for ($i = 0; $i < $num; $i++) {
-        $knots[$i] = [0, 0];
-    }
+    $knots = array_fill(0, $num, [0, 0]);
 
     foreach ($data as $move) {
         $delta = $map[$move[0]];
 
         for ($m = 0; $m < $move[1]; $m++) {
-
             $knots[0][0] += $delta[0];
             $knots[0][1] += $delta[1];
 
@@ -26,9 +23,6 @@ function check($data, $num)
                 $ty = $knots[$i][1];
                 $ox = $tx;
                 $oy = $ty;
-
-                $dx = $hx - $tx;
-                $dy = $hy - $ty;
 
                 if ($tx != $hx) {
                     $tx += ($hx > $tx ? 1 : -1);
@@ -49,7 +43,6 @@ function check($data, $num)
             }
         }
     }
-
     return count($pos);
 }
 

@@ -3,14 +3,12 @@ require 'libs/api.php';
 
 $data = (new AdventOfCode())->input(10)->lines()->raw();
 
-print_r($data);
-
 $cycle = 0;
 $tick = 0;
 $ins = ['noop'];
 $X = 1;
-$total = 0;
 
+$total = 0;
 $crt = array_fill(0, 6, array_fill(0, 40, '.'));
 
 do {

@@ -14,11 +14,11 @@ foreach ($data as $line) {
     } elseif (preg_match('/Operation\: new = old ([\*\+\/\-]) (old|\d+)/', $line, $matches)) {
         $monkeys[$m]['operation'] = array_slice($matches, 1);
     } elseif (preg_match('/Test\: divisible by (\d+)/', $line, $matches)) {
-        $monkeys[$m]['test'] = [$matches[1]];
+        $monkeys[$m]['test'][0] = $matches[1];
     } elseif (preg_match('/If true\: throw to monkey (\d)/', $line, $matches)) {
-        $monkeys[$m]['test'][] =  $matches[1];
+        $monkeys[$m]['test'][1] = $matches[1];
     } elseif (preg_match('/If false\: throw to monkey (\d)/', $line, $matches)) {
-        $monkeys[$m]['test'][] =  $matches[1];
+        $monkeys[$m]['test'][2] = $matches[1];
     }
 }
 
@@ -59,15 +59,7 @@ function check($monkeys, $rounds, $part = 1)
         $round++;
     }
 
-    usort(
-        $monkeys,
-        function ($a, $b) {
-            if ($a['inspected'] == $b['inspected']) {
-                return 0;
-            }
-            return $a['inspected'] < $b['inspected'] ? 1 : -1;
-        }
-    );
+    usort($monkeys, fn($a, $b) => $b['inspected'] <=> $a['inspected']);
 
     return $monkeys;
 }

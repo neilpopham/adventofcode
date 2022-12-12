@@ -84,9 +84,6 @@ function _draw()
  end
  if i~=2 then return end
  cls(0)
- if move==nil then
-  return
- end
  z=4
  w=1
  dx=64
@@ -95,13 +92,16 @@ function _draw()
   rectfill(dx+p.x*z-w,dy+p.y*z-w,dx+p.x*z+w,dy+p.y*z+w,2)
   --circfill(dx+p.x*z,dy+p.y*z,w,2)
  end
- for k, knot in pairs(knots) do
-  if k>1 then
-   line(dx+knots[k].x*z,dy+knots[k].y*z,dx+knots[k-1].x*z,dy+knots[k-1].y*z,13)
-  end
- end
+ -- for k, knot in pairs(knots) do
+ --  if k>1 then
+ --   line(dx+knots[k].x*z,dy+knots[k].y*z,dx+knots[k-1].x*z,dy+knots[k-1].y*z,13)
+ --  end
+ -- end
  for k=10,1,-1 do
   rectfill(dx+knots[k].x*z-w,dy+knots[k].y*z-w,dx+knots[k].x*z+w,dy+knots[k].y*z+w,5+k)
   --circfill(dx+knots[k].x*z,dy+knots[k].y*z,w,5+k)
  end
+ -- print (d..sub('0'..(m==1 and 0 or n+1-m),-2), 0, 0, 8)
+ print (d, 4, 4, 8)
+ print (sub('0'..(m==1 and 0 or n+1-m),-2), 8, 4, 9)
 end

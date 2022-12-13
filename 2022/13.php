@@ -16,8 +16,7 @@ function compare($a, $b)
 {
     $left = current($a);
     $right = current($b);
-    $state = STATE_UNKNOWN;
-    while ($state == STATE_UNKNOWN) {
+    while (true) {
         if ($left === false) {
             return $right === false ? STATE_UNKNOWN : STATE_SUCCESS;
         }
@@ -63,4 +62,3 @@ usort($packs, fn($a, $b) => (compare($a, $b) == STATE_SUCCESS ? -1 : 1));
 
 $keys = array_filter($packs, fn($v) => in_array($v, [[[2]], [[6]]]));
 print array_reduce(array_keys($keys), fn($t, $v) => $t * ($v + 1), 1) . "\n";
-

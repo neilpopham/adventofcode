@@ -29,7 +29,7 @@ foreach ($data as $key => $value) {
                     $cells[$y][$x1] = 1;
                 }
             }
-            $y = (int) $ye ?? $y1;
+            $y = (int) ($ye ?? $y1);
             if ($y > $my) {
                 $my = $y;
             }

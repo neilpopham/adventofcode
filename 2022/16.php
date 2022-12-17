@@ -72,5 +72,4 @@ while (false === is_null($next)) {
     $next = array_shift($q);
 }
 arsort($g);
-print_r($g);
 print reset($g) . "\n";

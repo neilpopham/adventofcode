@@ -47,9 +47,6 @@ function scan($x, $y, $z)
             continue;
         } elseif (isset($lava[$cz][$cy][$cx])) {
             $g[$z][$y][$x]++;
-            if ($z == 1 && $y == 1 & $x == 2) {
-                print_r($offset);
-            }
         } else {
             $q[] = [$cx, $cy, $cz];
         }

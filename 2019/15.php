@@ -189,6 +189,7 @@ while (!is_null($robot)) {
         case 2:
             $steps = strlen($robot->path);
             $o = [$robot->x, $robot->y];
+            // no break
         case 1:
             $q = array_merge($q, process($robot));
             break;

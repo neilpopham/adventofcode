@@ -150,7 +150,7 @@ while (!is_null($response)) {
             $char = chr($response);
             if ($char == '#') {
                 $cells[$y][$x] = 1;
-            } else if (false !== $d = array_search($char, ['^', '>', 'v', '<'])) {
+            } elseif (false !== $d = array_search($char, ['^', '>', 'v', '<'])) {
                 $rx = $x;
                 $ry = $y;
                 $rd = $d;
@@ -205,7 +205,7 @@ while ($turn) {
         $ox = $map[$rd][0];
         $oy = $map[$rd][1];
         $s = 0;
-        while(($cells[$ry + $oy][$rx + $ox] ?? 0) == 1) {
+        while (($cells[$ry + $oy][$rx + $ox] ?? 0) == 1) {
             $rx += $ox;
             $ry += $oy;
             $s++;

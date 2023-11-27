@@ -133,7 +133,7 @@ class AdventOfCodeData
      * Parse the data and return an array of lines.
      *
      * @param bool $trim Whether to trim the raw text.
-     * @return string[] An array of lines.
+     * @return object An array of lines.
      */
     public function lines(bool $trim = true): AdventofCodeLines
     {

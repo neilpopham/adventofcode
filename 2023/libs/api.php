@@ -157,7 +157,7 @@ class AdventOfCodeData
  */
 class AdventOfCode
 {
-    const YEAR = 2023;
+    public const YEAR = 2023;
 
     public $session;
     public $path = 'data/{name}.txt';
@@ -224,7 +224,7 @@ class AdventOfCode
      */
     public function load(string $filename): AdventOfCodeData
     {
-        $data = file_get_contents($$this->calculatePath($filename));
+        $data = file_get_contents($this->calculatePath($filename));
         return new AdventOfCodeData($data);
     }
 

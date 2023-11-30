@@ -2,8 +2,12 @@
 
 require 'libs/api.php';
 
-$api = new AdventOfCode();
+// Get live data
+// $input = (new AdventOfCode())->input(1);
 
-$data = $api->input(1)->lines();
+// Get example data
+$input = (new AdventOfCode())->load('_1');
+
+$data = $input->lines()->raw();
 
 print_r($data);

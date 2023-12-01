@@ -10,34 +10,31 @@ $total = 0;
 foreach ($data as $line) {
     $line = preg_replace('/[a-z]/', '', $line);
     $number = $line[0] . $line[-1];
-    $total += $number;
+    $total += (int) $number;
 }
 print $total . "\n";
 
+$search = [
+    '/(o)(n)(e)/',
+    '/(t)(w)(o)/',
+    '/(t)(hre)(e)/',
+    '/(f)(ou)(r)/',
+    '/(f)(iv)(e)/',
+    '/(s)(i)(x)/',
+    '/(s)(eve)(n)/',
+    '/(e)(igh)(t)/',
+    '/(n)(in)(e)/'
+];
+$replace = array_map(
+    fn($n) => '${1}' . ($n + 1) . '${3}',
+    array_keys($search)
+);
+$search[] = '/[a-z]/';
+$replace[] = '';
 $total = 0;
 foreach ($data as $line) {
-    $numbers = [
-        null,
-        '/(o)(n)(e)/',
-        '/(t)(w)(o)/',
-        '/(t)(hre)(e)/',
-        '/(f)(ou)(r)/',
-        '/(f)(iv)(e)/',
-        '/(s)(i)(x)/',
-        '/(s)(eve)(n)/',
-        '/(e)(igh)(t)/',
-        '/(n)(in)(e)/'
-    ];
-    $search = [];
-    $replace = [];
-    for ($n = 1; $n < count($numbers); $n++) {
-        $search[] = $numbers[$n];
-        $replace[] = '${1}' . $n . '${3}';
-    }
-    $search[] = '/[a-z]/';
-    $replace[] = '';
     $line = preg_replace($search, $replace, $line);
     $number = $line[0] . $line[-1];
-    $total += $number;
+    $total += (int) $number;
 }
 print $total . "\n";

@@ -212,8 +212,57 @@ class AdventOfCode
             if ($this->cache) {
                 file_put_contents($path, $data);
             }
+            $this->examples($day, $force);
         }
         return new AdventOfCodeData($data);
+    }
+
+    /**
+     * Scrapes the question page for example data and saves it in the data folder.
+     *
+     * @param integer $day The puzzle day.
+     * @param boolean $force Whether to force requerying the live file.
+     * @return void
+     */
+    public function examples(int $day, bool $force = false): void
+    {
+        $path = $this->calculatePath("{$day}.html");
+        if (file_exists($path) && (!$force)) {
+            return;
+        }
+        $year = self::YEAR;
+        $url = "github.com/neilpopham/adventofcode/blob/master/{$year}/libs/api.php";
+        $email = 'neilpopham@gmail.com';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://adventofcode.com/{$year}/day/{$day}");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Cookie: session={$this->session}"]);
+        curl_setopt($ch, CURLOPT_USERAGENT, "{$url} by {$email}");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        file_put_contents($path, $data);
+        if (preg_match_all('/<pre>\s*<code>\s*(.+?)\s*<\/code>\s*<\/pre>/ms', $data, $matches)) {
+            foreach ($matches[1] as $i => $value) {
+                $path = $this->calculatePath("{$day}.{$i}");
+                file_put_contents($path, $value);
+            }
+        }
+    }
+
+    /**
+     * Returns example data for a given day.
+     *
+     * @param integer $day The puzzle day.
+     * @param integer $index The example index.
+     * @return AdventOfCodeData
+     */
+    public function example(int $day, int $index): AdventOfCodeData
+    {
+        return $this->load("{$day}.{$index}");
     }
 
     /**
@@ -224,7 +273,9 @@ class AdventOfCode
      */
     public function load(string $filename): AdventOfCodeData
     {
-        $data = file_get_contents($this->calculatePath($filename));
+        if (false === $data = file_get_contents($this->calculatePath($filename)) {
+            return new AdventOfCodeData();
+        }
         return new AdventOfCodeData($data);
     }
 

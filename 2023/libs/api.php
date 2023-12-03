@@ -262,6 +262,7 @@ class AdventOfCode
      */
     public function example(int $day, int $index): AdventOfCodeData
     {
+        $this->examples();
         return $this->load("{$day}.{$index}");
     }
 

@@ -273,7 +273,7 @@ class AdventOfCode
      */
     public function load(string $filename): AdventOfCodeData
     {
-        if (false === $data = file_get_contents($this->calculatePath($filename)) {
+        if (false === $data = file_get_contents($this->calculatePath($filename))) {
             return new AdventOfCodeData();
         }
         return new AdventOfCodeData($data);

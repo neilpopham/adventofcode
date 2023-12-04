@@ -34,6 +34,7 @@ function find_count($index)
     for ($i = 0; $i < $card[3]; $i++) {
         $count += find_count($card[0] + $i);
     }
+    $counts[$index] = $count;
     return $count;
 }
 

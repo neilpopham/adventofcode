@@ -1,0 +1,6 @@
+text eol=lf
+
+*.php text
+*.p8 text
+
+*.gif binary

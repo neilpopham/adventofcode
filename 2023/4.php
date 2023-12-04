@@ -8,7 +8,6 @@ $data = $input->lines()->regex('/Card\s+(\d+):([\d\s]+)\|([\d\s]+)/');
 
 function numbers2array($value)
 {
-    return explode(' ', trim(preg_replace('/ +/', ' ', $value)));
     return array_filter(explode(' ', $value));
 }
 

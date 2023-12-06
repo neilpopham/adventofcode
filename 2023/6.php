@@ -42,7 +42,4 @@ print $product . "\n";
 $time = str_replace(' ', '', $data[0][0]);
 $distance = str_replace(' ', '', $data[1][0]);
 
-$s = microtime(true);
 print find($distance, $time) . "\n";
-$e = microtime(true);
-print $e - $s . "\n";

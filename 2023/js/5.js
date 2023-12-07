@@ -1,14 +1,18 @@
-var fs = require('fs');
-var path = require('path');
-var raw = fs.readFileSync(path.join(__dirname, '../libs/data/5.txt'), 'utf8');
-// var raw = fs.readFileSync(path.join(__dirname, '../libs/data/5.0.txt'), 'utf8');
-var data = raw.split(/[\r\n]+/)
+var api = require("api");
+const AdventOfCode = api.AdventOfCode;
+
+const input = (new AdventOfCode()).input(5);
+// const input = (new AdventOfCode()).example(5, 0);
+
+const data = input.lines().raw();
 
 var seeds;
 var maps = [];
 var i = -1;
 data.forEach(line => {
-	if (matches = line.match(/seeds: (.+)/)) {
+	if (line.length == 0) {
+		return true;
+	} else if (matches = line.match(/seeds: (.+)/)) {
 		seeds = matches[1].split(' ').map(v => Number(v));
 	} else if (matches = line.match(/(\w+)\-to\-(\w+) map/)) {
 		i++;
@@ -37,16 +41,12 @@ seeds.forEach(seed => {
 });
 console.log(location);
 
-const s = Date.now();
 location = Number.MAX_SAFE_INTEGER;
 for (var i = 0; i < seeds.length; i++) {
     const start = seeds[i++];
     const end = start + seeds[i];
-    console.log(start);
     for (var seed = start; seed < end; seed++) {
         location = Math.min(location, map(seed));
     }
 }
-const e = Date.now();
 console.log(location);
-console.log('time', e - s);

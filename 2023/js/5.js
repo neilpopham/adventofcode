@@ -1,5 +1,4 @@
-var api = require("api");
-const AdventOfCode = api.AdventOfCode;
+const { AdventOfCode } = require("api");
 
 const input = (new AdventOfCode()).input(5);
 // const input = (new AdventOfCode()).example(5, 0);

@@ -3,7 +3,6 @@
 require 'libs/api.php';
 
 $input = (new AdventOfCode())->input(8);
-// $input = (new AdventOfCode())->example(8, 3);
 
 $data = $input->lines()->raw();
 
@@ -29,7 +28,6 @@ do {
         $d = 0;
     }
 } while ($key != 'ZZZ');
-
 print $steps . "\n";
 
 foreach (array_keys($instructions) as $value) {
@@ -52,5 +50,4 @@ foreach ($keys as $start) {
         }
     } while (substr($key, -1) !== 'Z');
 }
-
 print array_product($cycles) * count($directions) . "\n";

@@ -88,7 +88,6 @@ while ($x != $sx || $y != $sy) {
 
 print (count($path) / 2) . "\n";
 
-// [pipe => [left => [exit 0, exit 1], right => [exit 0, exit 1]]
 $bounds = [
     '|' => [
         [[1, 0]],

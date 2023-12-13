@@ -88,6 +88,42 @@ while ($x != $sx || $y != $sy) {
 
 print (count($path) / 2) . "\n";
 
+// EWEN'S RAY CASTING SOLUTION FOR PART 2 (WORKS)
+
+$edges = [];
+foreach ($data as $y => $row) {
+    $edges[$y] = [];
+    foreach ($row as $x => $pipe) {
+        $edges[$y][$x] = 0;
+        if (isset($path["{$y}|{$x}"])) {
+            continue;
+        }
+        for ($rx = $x + 1; $rx < $mx; $rx++) {
+            $pipe = $rx != $sx || $y != $sy ? $data[$y][$rx] : $s;
+            if (isset($path["{$y}|{$rx}"]) && in_array($pipe, ['|', 'L', 'J'])) {
+                $edges[$y][$x]++;
+            }
+        }
+    }
+}
+
+$total = array_reduce(
+    $edges,
+    function ($total, $row) {
+        return $total + array_reduce(
+            $row,
+            fn($subtotal, $count) => $subtotal + ($count % 2 == 1 ? 1 : 0),
+            0
+        );
+    },
+    0
+);
+print $total . "\n";
+
+exit;
+
+// MY WEIRDASS SOLUTION FOR PART 2 (WORKS)
+
 $bounds = [
     '|' => [
         [[1, 0]],

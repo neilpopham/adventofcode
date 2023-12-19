@@ -3,7 +3,6 @@
 require 'libs/api.php';
 
 $input = (new AdventOfCode())->input(19);
-$input = (new AdventOfCode())->example(19, 0);
 
 $data = $input->lines()->raw();
 

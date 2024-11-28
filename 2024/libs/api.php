@@ -216,7 +216,7 @@ class AdventOfCode
     {
         $path = $this->calculatePath($day);
         $data = false;
-        if (($this->cache) && (!$force) && file_exists($path)) {
+        if ($this->cache && !$force && file_exists($path)) {
             $data = file_get_contents($path);
         }
         if (false === $data) {
@@ -239,7 +239,7 @@ class AdventOfCode
     public function examples(int $day, bool $force = false): void
     {
         $path = $this->calculatePath("{$day}.html");
-        if (file_exists($path) && (!$force)) {
+        if (file_exists($path) && !$force) {
             return;
         }
         $data = $this->getResponse("https://adventofcode.com/{$year}/day/{$day}");

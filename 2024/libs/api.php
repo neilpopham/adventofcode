@@ -246,7 +246,7 @@ class AdventOfCode
         file_put_contents($path, $data);
         if (preg_match_all('/<pre>\s*<code>\s*(.+?)\s*<\/code>\s*<\/pre>/ms', $data, $matches)) {
             foreach ($matches[1] as $i => $value) {
-                $value = html_entity_decode($value);
+                $value = strip_tags(html_entity_decode($value));
                 $path = $this->calculatePath("{$day}.{$i}");
                 file_put_contents($path, $value);
             }

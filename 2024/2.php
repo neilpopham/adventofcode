@@ -12,9 +12,8 @@ function check_levels($levels)
     $sgn = $levels[1] <=> $levels[0];
     $count = count($levels);
     for ($i = 1; $i < $count; $i++) {
-        $d = $levels[$i] - $levels[$i - 1];
-        $ad = abs($d);
-        if ($ad < 1 || $ad > 3) {
+        $delta = abs($levels[$i] - $levels[$i - 1]);
+        if ($delta < 1 || $delta > 3) {
             return false;
         }
         if (($levels[$i] <=> $levels[$i - 1]) !== $sgn) {

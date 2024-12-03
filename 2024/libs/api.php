@@ -214,6 +214,7 @@ class AdventOfCode
      */
     public function input(int $day, bool $force = false): AdventOfCodeData
     {
+        $year = self::YEAR;
         $path = $this->calculatePath($day);
         $data = false;
         if ($this->cache && !$force && file_exists($path)) {

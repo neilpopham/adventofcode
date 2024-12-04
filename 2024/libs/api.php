@@ -73,7 +73,7 @@ class AdventofCodeLines implements Iterator
      *
      * @param  string  $regex The regex to test.
      * @param  boolean $slice Whether to remove the full match at index 0.
-     * @return string[] An array of matches.
+     * @return array[] An array of matches.
      */
     public function regex(string $regex, bool $slice = true): array
     {
@@ -88,6 +88,16 @@ class AdventofCodeLines implements Iterator
         }
         return $parsed;
     }
+
+    /**
+     * Performs a function on each element of the array and returns that new array.
+     * @param  object $callback The function to perform on each line.
+     * @return mixed[] The new array.
+     */
+    public function map(object $callback): array
+    {
+        return array_map($callback, $this->raw);
+    }    
 }
 
 /**

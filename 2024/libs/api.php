@@ -103,7 +103,7 @@ class AdventOfCodeData
      * @param  string|null $raw The raw data.
      * @return void
      */
-    public function __construct(?string $raw)
+    public function __construct(?string $raw = null)
     {
         $this->raw = $raw;
     }
@@ -248,7 +248,7 @@ class AdventOfCode
         file_put_contents($path, $data);
         if (preg_match_all('/<pre>\s*<code>\s*(.+?)\s*<\/code>\s*<\/pre>/ms', $data, $matches)) {
             foreach ($matches[1] as $i => $value) {
-                $value = html_entity_decode($value);
+                $value = strip_tags(html_entity_decode($value));
                 $path = $this->calculatePath("{$day}.{$i}");
                 file_put_contents($path, $value);
             }
@@ -262,9 +262,9 @@ class AdventOfCode
      * @param  integer $index The example index.
      * @return AdventOfCodeData
      */
-    public function example(int $day, int $index): AdventOfCodeData
+    public function example(int $day, int $index, bool $force = false): AdventOfCodeData
     {
-        $this->examples($day);
+        $this->examples($day, $force);
         return $this->load("{$day}.{$index}");
     }
 

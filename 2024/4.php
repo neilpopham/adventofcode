@@ -38,38 +38,10 @@ foreach ($data as $y => $row) {
 }
 print $total . "\n";
 
-$s = microtime(true);
 $total = 0;
 foreach ($data as $y => $row) {
     foreach ($row as $x => $c) {
         if ($c == 'A') {
-            // $masses = 0;
-            // foreach ([-1, 1] as $dy) {
-            //     foreach ([-1, 1] as $dx) {
-            //         $cx = $x + $dx;
-            //         $cy = $y + $dy;
-            //         if (!isset($data[$cy][$cx])) {
-            //             continue 2;
-            //         }
-            //         if (!in_array($data[$cy][$cx], ['M', 'S'])) {
-            //             continue 2;
-            //         }
-            //         $v = $data[$cy][$cx];
-            //         $ox = $x + $dx + (-2 * $dx);
-            //         $oy = $y + $dy + (-2 * $dy);
-            //         if (!isset($data[$oy][$ox])) {
-            //             continue 2;
-            //         }
-            //         if ($v == 'M' & $data[$oy][$ox] == 'S') {
-            //             $masses++;
-            //         }
-            //     }
-            // }
-            // if ($masses == 2) {
-            //     $total++;
-            // }
-
-
             if (
                 !isset($data[$y - 1][$x - 1])
                 || !isset($data[$y - 1][$x + 1])
@@ -95,5 +67,3 @@ foreach ($data as $y => $row) {
     }
 }
 print $total . "\n";
-$t = microtime(true);
-print ($t - $s) . "\n";

@@ -3,10 +3,6 @@
 require 'libs/api.php';
 
 $input = (new AdventOfCode())->input(4);
-
-$example = (new AdventOfCode())->example(4, 1);
-$data = $example->lines()->raw();
-
 $data = $input->lines()->raw();
 
 $word = 'XMAS';

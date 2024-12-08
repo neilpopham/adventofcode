@@ -16,53 +16,6 @@ foreach ($data as $y => $row) {
     }
 }
 
-$antinodes = [];
-foreach ($transmitters as $char => $coords) {
-    foreach ($coords as $i => $source) {
-        foreach ($coords as $j => $c) {
-            if ($i == $j) {
-                continue;
-            }
-            $dx = $c[0] - $source[0];
-            $dy = $c[1] - $source[1];
-
-            $nx = $c[0] + $dx;
-            $ny = $c[1] + $dy;
-
-            if (isset($data[$ny][$nx])) {
-                $antinodes["{$nx}|{$ny}"] = 1;
-            }
-        }
-    }
-}
-print count($antinodes) . "\n";
-
-$antinodes = [];
-foreach ($transmitters as $char => $coords) {
-    foreach ($coords as $i => $source) {
-        foreach ($coords as $j => $c) {
-            if ($i == $j) {
-                continue;
-            }
-            $antinodes["{$c[0]}|{$c[1]}"] = 1;
-
-            $dx = $c[0] - $source[0];
-            $dy = $c[1] - $source[1];
-
-            do {
-                $c[0] += $dx;
-                $c[1] += $dy;
-
-                if (isset($data[$c[1]][$c[0]])) {
-                    $antinodes["{$c[0]}|{$c[1]}"] = 1;
-                }
-            } while (isset($data[$c[1]][$c[0]]));
-        }
-    }
-}
-print count($antinodes) . "\n";
-
-
 function find_antinodes($data, $transmitters, $iterate)
 {
     $antinodes = [];

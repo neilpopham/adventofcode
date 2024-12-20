@@ -4,12 +4,7 @@ require 'libs/api.php';
 require 'libs/console.php';
 
 $input = (new AdventOfCode())->input(18);
-// $input = (new AdventOfCode())->example(18, 0);
 $data = $input->lines()->raw();
-
-$width = 7;
-$height = 7;
-$bytes = 12;
 
 $width = 71;
 $height = 71;

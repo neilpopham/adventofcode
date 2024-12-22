@@ -15,9 +15,13 @@ function prune($n)
     return $n % 16777216;
 }
 
+function format_change($value)
+{
+    return $value < 0 ? strval($value) : '+' . $value;
+}
+
 foreach ($data as $buyer => &$secret) {
     $prices[$buyer] = [$secret % 10];
-    $max[$buyer] = 0;
     for ($i = 0; $i < 2000; $i++) {
         $secret = prune(mix(64 * $secret, $secret));
         $secret = prune(mix(intval($secret / 32), $secret));
@@ -27,11 +31,6 @@ foreach ($data as $buyer => &$secret) {
     }
 }
 print array_sum($data) . "\n";
-
-function format_change($value)
-{
-    return $value < 0 ? strval($value) : '+' . $value;
-}
 
 $sequences = [];
 $changes = [];

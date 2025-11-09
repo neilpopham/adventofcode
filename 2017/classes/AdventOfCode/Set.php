@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace AdventOfCode;
 
@@ -15,6 +15,16 @@ class Set
                 $this->items[$value] = 1;
             }
         }
+    }
+
+    public function __debugInfo()
+    {
+        return array_keys($this->items);
+    }
+
+    public function __toString()
+    {
+        return implode(', ', array_keys($this->items));
     }
 
     public function add(mixed $value): void
@@ -42,7 +52,7 @@ class Set
         return array_keys($this->items);
     }
 
-    public function has(): bool
+    public function has($value): bool
     {
         return isset($this->items[$value]);
     }

@@ -6,8 +6,8 @@ $input = new AdventOfCode\AdventOfCode()->input(2);
 $data = $input->lines();
 
 $checksum = 0;
-foreach($data as $row) {
-    $numbers = explode(' ', preg_replace('/\s+/' , ' ', subject: $row));
+foreach ($data as $row) {
+    $numbers = explode(' ', preg_replace('/\s+/', ' ', subject: $row));
     sort($numbers);
     $checksum += end($numbers) - reset($numbers);
 }
@@ -15,8 +15,8 @@ foreach($data as $row) {
 print $checksum . "\n";
 
 $checksum = 0;
-foreach($data as $row) {
-    $numbers = explode(' ', preg_replace('/\s+/' , ' ', subject: $row));
+foreach ($data as $row) {
+    $numbers = explode(' ', preg_replace('/\s+/', ' ', subject: $row));
     foreach ($numbers as $n1) {
         foreach ($numbers as $n2) {
             if ($n1 == $n2) {

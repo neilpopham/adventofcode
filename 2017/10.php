@@ -29,7 +29,8 @@ foreach ($lengths as $length) {
 
 print array_product(array_slice($list, 0, 2)) . "\n";
 
-function combine($array) {
+function combine($array)
+{
     $x = $array[0];
     for ($i = 1; $i < count($array); $i++) {
         $x = $x ^ $array[$i];

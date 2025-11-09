@@ -19,8 +19,8 @@ $options = array_filter(
 
 $options = array_filter(
     $options,
-    function($v) use($options) {
-        foreach($options as $o) {
+    function ($v) use ($options) {
+        foreach ($options as $o) {
             if (in_array($v[0], $o[2])) {
                 return false;
             }
@@ -56,13 +56,13 @@ $options = array_filter(
 function find_unbalanced($programs, $options)
 {
     $unbalanced = [];
-    foreach($options as $option) {
+    foreach ($options as $option) {
         $weights = array_map(
             fn ($name) => $programs[$name][3],
             $option[2]
         );
         $counts = [];
-        foreach($weights as $weight) {
+        foreach ($weights as $weight) {
             $counts[$weight] = isset($counts[$weight]) ? $counts[$weight] + 1 : 1;
         }
         if (count($counts) > 1) {

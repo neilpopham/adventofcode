@@ -19,8 +19,8 @@ print $total . "\n";
 
 $len = strlen($data);
 
-$a = substr($data, 0, $len/2);
-$b = substr($data, $len/2);
+$a = substr($data, 0, $len / 2);
+$b = substr($data, $len / 2);
 
 $total = 0;
 for ($i = 0; $i < strlen($a) - 1; $i++) {

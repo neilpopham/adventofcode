@@ -1,6 +1,8 @@
 <?php
 
-$number = 368078;
+require 'libs/aoc.php';
+
+$number = new AdventOfCode\AdventOfCode()->input(3)->raw();;
 
 $i = 1;
 do {

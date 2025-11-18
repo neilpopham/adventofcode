@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace AdventOfCode;
 
@@ -39,7 +39,7 @@ class Formatting
     {
         return self::format(
             $arguments[0] ?? '',
-            self:code($name, $arguments[1] ?? false)
+            self::code($name, $arguments[1] ?? false)
         );
     }
 }

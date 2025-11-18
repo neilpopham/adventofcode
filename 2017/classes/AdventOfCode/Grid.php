@@ -25,15 +25,39 @@ class Grid
         }
     }
 
+    public function __debugInfo()
+    {
+        return $this->cells;
+    }
+
+    public function __toString()
+    {
+        $return = '';
+        ksort($this->cells);
+        foreach ($this->cells as $y => $row) {
+            ksort($row);
+            $return .= implode('', $row) . "\n";
+        }
+        return $return;
+    }
+
     private function dimensions(): void
     {
         $this->height = count($this->cells);
-        $this->width = count($this->cells[0]);
+        $this->width = count(reset($this->cells));
     }
 
     public function cell(int $x, int $y, mixed $default = null): mixed
     {
         return $this->cells[$y][$x] ?? $default;
+    }
+
+    public function set($x, $y, $value)
+    {
+        if (!isset($this->cells[$y])) {
+            $this->cells[$y] = [];
+        }
+        $this->cells[$y][$x] = $value;
     }
 
     public function pad(string $char = '.', int $size = 1): void

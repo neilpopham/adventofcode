@@ -5,7 +5,7 @@ require 'libs/aoc.php';
 $data = new AdventOfCode\AdventOfCode()->input(day: 18)
     ->lines()->regex('/(snd|set|add|mul|mod|rcv|jgz) (\w+)(?: ([-\w]+))*/');
 
-    function register($v)
+function register($v)
 {
     global $register;
     return $register[$v] ?? 0;

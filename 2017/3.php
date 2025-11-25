@@ -2,8 +2,6 @@
 
 require 'libs/aoc.php';
 
-use AdventOfCode\Formatting as Formatting;
-
 $number = new AdventOfCode\AdventOfCode()->input(3)->raw();
 
 $i = 1;

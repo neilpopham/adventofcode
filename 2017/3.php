@@ -2,7 +2,9 @@
 
 require 'libs/aoc.php';
 
-$number = new AdventOfCode\AdventOfCode()->input(3)->raw();;
+use AdventOfCode\Formatting as Formatting;
+
+$number = new AdventOfCode\AdventOfCode()->input(3)->raw();
 
 $i = 1;
 do {
@@ -30,3 +32,34 @@ while ($c != $number) {
 $distance = abs($x) + abs($y);
 
 print $distance . "\n";
+
+$offsets = [[0,-1], [1,0], [0,1], [-1,0]];
+$x = 1;
+$y = 0;
+$d = 0;
+$grid = [[1, 1]];
+$value = 1;
+while ($value < $number) {
+    $nd = ($d + 3) % 4;
+    $nx = $x + $offsets[$nd][0];
+    $ny = $y + $offsets[$nd][1];
+    if (!isset($grid[$ny]) || !isset($grid[$ny][$nx])) {
+        $x = $nx;
+        $y = $ny;
+        $d = $nd;
+    } else {
+        $x += $offsets[$d][0];
+        $y += $offsets[$d][1];
+    }
+    $value = 0;
+    for ($oy = -1; $oy <= 1; $oy++) {
+        for ($ox = -1; $ox <= 1; $ox++) {
+            if (isset($grid[$y + $oy]) & isset($grid[$y + $oy][$x + $ox])) {
+                $value += $grid[$y + $oy][$x + $ox];
+            }
+        }
+    }
+    $grid[$y][$x] = $value;
+}
+
+print $value . "\n";

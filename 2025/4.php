@@ -21,9 +21,6 @@ function neighbours($grid, $x, $y)
             if ($grid->cell($x + $dx, $y + $dy, '.') == '@') {
                 $sides++;
             }
-            if ($sides > 3) {
-                break 2;
-            }
         }
     }
     return $sides;
@@ -43,9 +40,8 @@ for ($y = 0; $y < $grid->height; $y++) {
 }
 print $total . "\n";
 
-$previous = 1;
 $total = 0;
-while ($total != $previous) {
+do {
     $previous = $total;
     for ($y = 0; $y < $grid->height; $y++) {
         for ($x = 0; $x < $grid->width; $x++) {
@@ -58,12 +54,12 @@ while ($total != $previous) {
                         $cx = $x + $dx;
                         $cy = $y + $dy;
                         if ($grid->cell($cx, $cy, '.') == '@') {
-                            $neighbours->set($cx, $cy, neighbours($grid, $cx, $cy));
+                            $neighbours->set($cx, $cy, $neighbours->cell($cx, $cy) - 1);
                         }
                     }
                 }
             }
         }
     }
-}
+} while ($total > $previous);
 print $total . "\n";

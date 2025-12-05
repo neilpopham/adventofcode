@@ -188,8 +188,6 @@ for y = 1, #data do
     end
 end
 
-y = 1
-x = 1
 total = 0
 previous = 1
 
@@ -222,40 +220,4 @@ function _update()
         extcmd('video')
         stop()
     end
-    -- x += 1
-    -- if x > #data[y] then
-    --     x = 1
-    --     y += 1
-    -- end
-    -- y += 1
-    -- if y > #data then
-    --     y = 1
-    -- end
 end
-
-function _draw()
-end
-
--- previous = 1
--- total = 0
--- while previous ~= total do
---     previous = total
---     total = 0
---     for y = 1, #data do
---         for x = 1, #data[y] do
---             if data[y][x] == '@' then
---                 local sides = neighbours(x, y)
---                 if sides < 4 then
---                     total += 1
---                 end
---                 -- data[y][x] = '#'
---                 -- cache[y][x] = 9
---             end
---             pset(x, y, data[y][x] == '@' and 2 or 1)
---         end
---     end
---     color(7)
---     print(total)
--- end
-
--- print(total)

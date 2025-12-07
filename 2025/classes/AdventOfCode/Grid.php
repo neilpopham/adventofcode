@@ -47,6 +47,11 @@ class Grid
         $this->width = count(reset($this->cells));
     }
 
+    public function row(int $row = 0, bool $string = false): array
+    {
+        return $string ? implode('', $this->cells[$row]) : $this->cells[$row];
+    }
+
     public function cell(int $x, int $y, mixed $default = null): mixed
     {
         return $this->cells[$y][$x] ?? $default;

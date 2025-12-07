@@ -62,4 +62,19 @@ class AdventOfCodeData
     {
         return array_map(fn($x) => (int) $x, explode(',', $this->raw));
     }
+
+    /**
+     * Parse the data as a grid.
+     *
+     * @return Grid
+     */
+    public function grid(): Grid
+    {
+        return new Grid(
+            array_map(
+                fn ($line) => str_split($line),
+                $this->lines()->raw()
+            )
+        );
+    }
 }

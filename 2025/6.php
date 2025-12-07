@@ -2,10 +2,7 @@
 
 require 'libs/aoc.php';
 
-$input = new AdventOfCode\AdventOfCode()->input(6);
-
-$input->raw = rtrim($input->raw);
-$input = $input->lines(false);
+$input = new AdventOfCode\AdventOfCode()->input(6)->lines();
 
 function dosum($sum, $operator)
 {

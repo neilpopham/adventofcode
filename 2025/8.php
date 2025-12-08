@@ -6,12 +6,13 @@ $input = new AdventOfCode\AdventOfCode()->input(8)->lines();
 
 $data = $input->regex('/(\d+),(\d+),(\d+)/');
 
+define(CONNECTIONS, 1000);
+
 function euclidean($p, $q)
 {
     return sqrt(pow($p[0] - $q[0], 2) + pow($p[1] - $q[1], 2) + pow($p[2] - $q[2], 2));
 }
 
-$steps = 1000;
 $boxes = [];
 $distances = [];
 
@@ -65,7 +66,7 @@ function junction($distance, $p1, $p2)
 }
 
 $i = 0;
-while ($i < $steps) {
+while ($i < CONNECTIONS) {
     junction(...$distances[$i]);
     $i++;
 }

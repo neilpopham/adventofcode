@@ -6,7 +6,7 @@ $input = new AdventOfCode\AdventOfCode()->input(8)->lines();
 
 $data = $input->regex('/(\d+),(\d+),(\d+)/');
 
-define(CONNECTIONS, 1000);
+define('CONNECTIONS', 1000);
 
 function euclidean($p, $q)
 {

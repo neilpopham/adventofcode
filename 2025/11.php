@@ -17,36 +17,30 @@ foreach ($data as $device) {
     $devices[$device[0]] = $device[1];
 }
 
-
-function follow($devices, $path, $fft, $dac)
+function follow($devices, $device, $fft, $dac)
 {
     global $cache;
-    if (empty($path)) {
-        return;
-    }
-    $current = end($path);
-    $key = $current . $fft . $dac;
+    $key = $device . $fft . $dac;
     if (isset($cache[$key])) {
         return $cache[$key];
     }
-    if ($current == 'out') {
+    if ($device == 'out') {
         return $fft && $dac ? 1 : 0;
     }
-    if ($current == 'fft') {
+    if ($device == 'fft') {
         $fft = 1;
     }
-    if ($current == 'dac') {
+    if ($device == 'dac') {
         $dac = 1;
     }
-    $cache[$key] = 0;
-    if (false === isset($devices[$current])) {
+    if (false === isset($devices[$device])) {
         return 0;
     }
-    foreach ($devices[$current] as $device) {
-        $new = array_merge($path, [$device]);
-        $cache[$key] += follow($devices, $new, $fft, $dac);
+    $cache[$key] = 0;
+    foreach ($devices[$device] as $device) {
+        $cache[$key] += follow($devices, $device, $fft, $dac);
     }
     return $cache[$key];
 }
 
-print follow($devices, ['svr'], 0, 0) . "\n";
+print follow($devices, 'svr', 0, 0) . "\n";

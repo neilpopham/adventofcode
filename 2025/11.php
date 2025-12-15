@@ -17,9 +17,9 @@ foreach ($data as $device) {
     $devices[$device[0]] = $device[1];
 }
 
-function follow($devices, $device, $fft, $dac)
+function follow($device, $fft, $dac)
 {
-    global $cache;
+    global $devices, $cache;
     $key = $device . $fft . $dac;
     if (isset($cache[$key])) {
         return $cache[$key];
@@ -38,9 +38,10 @@ function follow($devices, $device, $fft, $dac)
     }
     $cache[$key] = 0;
     foreach ($devices[$device] as $device) {
-        $cache[$key] += follow($devices, $device, $fft, $dac);
+        $cache[$key] += follow($device, $fft, $dac);
     }
     return $cache[$key];
 }
 
-print follow($devices, 'svr', 0, 0) . "\n";
+print follow('you', 1, 1) . "\n";
+print follow('svr', 0, 0) . "\n";
